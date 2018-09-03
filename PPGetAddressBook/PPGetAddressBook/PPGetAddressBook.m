@@ -17,10 +17,10 @@
 
 + (void)requestAddressBookAuthorization
 {
-    [kPPAddressBookHandle requestAuthorizationWithSuccessBlock:^{
+    [kPPAddressBookHandle requestAuthorizationWithAuthorizedBlock:^{
         [self getOrderAddressBook:nil authorizationFailure:nil];
-    } FailureBlock:^{
-        NULL;
+    } DeinedBlock:^{
+        nil;
     }];
 }
 
