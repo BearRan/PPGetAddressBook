@@ -58,8 +58,8 @@ PPSingletonH(AddressBookHandle)
 
  @param success 授权成功的回调
  */
-- (void)requestAuthorizationWithSuccessBlock:(void (^)(void))success
-                                FailureBlock:(void (^)(void))failure;
+- (void)requestAuthorizationWithAuthorizedBlock:(void (^)(void))authorizedBlock
+                                    DeinedBlock:(void (^)(void))deinedBlock;
 
 /**
  *  返回每个联系人的模型
