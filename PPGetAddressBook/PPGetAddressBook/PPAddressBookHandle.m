@@ -22,24 +22,29 @@
 
 PPSingletonM(AddressBookHandle)
 
-- (void)requestAuthorizationWithSuccessBlock:(void (^)(void))success
-                                FailureBlock:(void (^)(void))failure
+- (void)requestAuthorizationWithAuthorizedBlock:(void (^)(void))authorizedBlock
+                                DeinedBlock:(void (^)(void))deinedBlock
 {
     if(IOS9_LATER)
     {
 #ifdef __IPHONE_9_0
         // 1.判断是否授权成功,若授权成功直接return
-        if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusAuthorized) return;
-        // 2.创建通讯录
-        //CNContactStore *store = [[CNContactStore alloc] init];
-        // 3.授权
-        [self.contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-            if (granted) {
-                NSLog(@"授权成功"); success();
-            }else{
-                NSLog(@"授权失败"); failure();
-            }
-        }];
+        if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusNotDetermined) {
+            // 2.创建通讯录
+            //CNContactStore *store = [[CNContactStore alloc] init];
+            // 3.授权
+            [self.contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                if (granted) {
+                    NSLog(@"授权成功"); authorizedBlock();
+                }else{
+                    NSLog(@"授权失败"); deinedBlock();
+                }
+            }];
+        }else if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusAuthorized) {
+            if (authorizedBlock) authorizedBlock();
+        }else if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusDenied) {
+            if (deinedBlock) deinedBlock();
+        }
 #endif
     }
     else
@@ -52,16 +57,18 @@ PPSingletonM(AddressBookHandle)
             ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
             ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
                 if (granted) {
-                    NSLog(@"授权成功"); success();
+                    NSLog(@"授权成功"); authorizedBlock();
                 } else {
-                    NSLog(@"授权失败"); failure();
+                    NSLog(@"授权失败"); deinedBlock();
                 }
                 
             });
+        }else if (status == kABAuthorizationStatusAuthorized) {
+            if (authorizedBlock) authorizedBlock();
+        }else if (status == kABAuthorizationStatusDenied) {
+            if (deinedBlock) deinedBlock();
         }
-        
     }
-    
 }
 
 
