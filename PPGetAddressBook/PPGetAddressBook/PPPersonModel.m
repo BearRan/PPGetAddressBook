@@ -10,13 +10,13 @@
 
 @implementation PPPersonModel
 
-- (NSMutableArray *)mobileArray
+- (NSMutableArray *)phones
 {
-    if(!_mobileArray)
+    if(!_phones)
     {
-        _mobileArray = [NSMutableArray array];
+        _phones = [NSMutableArray array];
     }
-    return _mobileArray;
+    return _phones;
 }
 
 @end

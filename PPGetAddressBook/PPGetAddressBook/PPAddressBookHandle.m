@@ -132,7 +132,7 @@ PPSingletonM(AddressBookHandle)
             NSString *phoneValue = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
             NSString *mobile = [self removeSpecialSubString:phoneValue];
             
-            [model.mobileArray addObject: mobile ? mobile : @"空号"];
+            [model.phones addObject: mobile ? mobile : @"空号"];
             
         }
         // 5.5将联系人模型回调出去
@@ -189,7 +189,7 @@ PPSingletonM(AddressBookHandle)
         {
             CNPhoneNumber *phoneNumber = labelValue.value;
             NSString *mobile = [self removeSpecialSubString:phoneNumber.stringValue];
-            [model.mobileArray addObject: mobile ? mobile : @"空号"];
+            [model.phones addObject: mobile ? mobile : @"空号"];
         }
         
         //将联系人模型回调出去

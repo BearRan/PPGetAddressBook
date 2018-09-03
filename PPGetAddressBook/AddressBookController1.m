@@ -111,7 +111,7 @@
     PPPersonModel *people = [_contactPeopleDict[key] objectAtIndex:indexPath.row];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:people.name
-                                                    message:[NSString stringWithFormat:@"号码:%@",people.mobileArray]
+                                                    message:[NSString stringWithFormat:@"号码:%@",people.phones]
                                                    delegate:nil
                                           cancelButtonTitle:@"知道啦"
                                           otherButtonTitles:nil];
