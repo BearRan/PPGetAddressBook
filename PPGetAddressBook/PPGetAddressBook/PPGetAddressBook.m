@@ -19,6 +19,8 @@
 {
     [kPPAddressBookHandle requestAuthorizationWithSuccessBlock:^{
         [self getOrderAddressBook:nil authorizationFailure:nil];
+    } FailureBlock:^{
+        NULL;
     }];
 }
 

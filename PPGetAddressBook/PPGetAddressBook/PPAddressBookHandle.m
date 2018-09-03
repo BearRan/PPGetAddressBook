@@ -23,6 +23,7 @@
 PPSingletonM(AddressBookHandle)
 
 - (void)requestAuthorizationWithSuccessBlock:(void (^)(void))success
+                                FailureBlock:(void (^)(void))failure
 {
     if(IOS9_LATER)
     {
@@ -36,7 +37,7 @@ PPSingletonM(AddressBookHandle)
             if (granted) {
                 NSLog(@"授权成功"); success();
             }else{
-                NSLog(@"授权失败");
+                NSLog(@"授权失败"); failure();
             }
         }];
 #endif
@@ -53,7 +54,7 @@ PPSingletonM(AddressBookHandle)
                 if (granted) {
                     NSLog(@"授权成功"); success();
                 } else {
-                    NSLog(@"授权失败");
+                    NSLog(@"授权失败"); failure();
                 }
                 
             });
